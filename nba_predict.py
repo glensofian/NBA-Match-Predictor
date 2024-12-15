@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from tkinter import Tk, Label, Entry, Button, StringVar, Text, END
+from tkinter import Tk, Label, Entry, Button, StringVar, Text, END, Frame
 
 # Memuat dataset
 print("Memuat dataset...")
@@ -95,26 +95,37 @@ def predict_winner(team_a, team_b):
 class NBAApp(Tk):
     def __init__(self):
         super().__init__()
-        self.title("NBA Match Predictor")
-        self.geometry("500x400")
+        self.title("Match Predict NBA")
+        self.geometry("500x500")
+        self.configure(bg="#1C2833")  # Background warna gelap
 
-        # Label dan input untuk Tim A
-        Label(self, text="Masukkan nama Tim A:", font=("Arial", 12)).pack(pady=10)
+        # Judul
+        Label(self, text="Match Predict NBA", font=("Arial", 16, "bold"), bg="#1C2833", fg="white").pack(pady=10)
+
+        # Frame untuk Input Tim
+        input_frame = Frame(self, bg="#1C2833")
+        input_frame.pack(pady=20)
+
+        # Input Tim A
+        Label(input_frame, text="Tim - A", font=("Arial", 12), bg="#1C2833", fg="white").grid(row=0, column=0, padx=10)
         self.team_a_var = StringVar()
-        Entry(self, textvariable=self.team_a_var, font=("Arial", 12)).pack()
+        Entry(input_frame, textvariable=self.team_a_var, font=("Arial", 12), width=10).grid(row=1, column=0, padx=10)
 
-        # Label dan input untuk Tim B
-        Label(self, text="Masukkan nama Tim B:", font=("Arial", 12)).pack(pady=10)
+        # VS Label
+        Label(input_frame, text="VS", font=("Arial", 12, "bold"), bg="#1C2833", fg="white").grid(row=1, column=1, padx=10)
+
+        # Input Tim B
+        Label(input_frame, text="Tim - B", font=("Arial", 12), bg="#1C2833", fg="white").grid(row=0, column=2, padx=10)
         self.team_b_var = StringVar()
-        Entry(self, textvariable=self.team_b_var, font=("Arial", 12)).pack()
+        Entry(input_frame, textvariable=self.team_b_var, font=("Arial", 12), width=10).grid(row=1, column=2, padx=10)
 
         # Tombol Prediksi
-        Button(self, text="Prediksi", font=("Arial", 12), command=self.on_predict).pack(pady=20)
+        Button(self, text="Prediksi", font=("Arial", 12), bg="#ABB2B9", command=self.on_predict).pack(pady=20)
 
-        # Area untuk menampilkan hasil prediksi
-        Label(self, text="Hasil Prediksi:", font=("Arial", 12, "bold")).pack(pady=10)
-        self.result_text = Text(self, height=8, width=50, font=("Arial", 12), state='disabled')
-        self.result_text.pack()
+        # Area Hasil Prediksi
+        Label(self, text="Hasil Prediksi", font=("Arial", 12, "bold"), bg="#1C2833", fg="white").pack(pady=10)
+        self.result_text = Text(self, height=8, width=50, font=("Arial", 12), state='disabled', bg="#D5D8DC")
+        self.result_text.pack(pady=10)
 
     def on_predict(self):
         team_a = self.team_a_var.get().upper().strip()
