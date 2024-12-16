@@ -9,7 +9,7 @@ print("Memuat dataset...")
 df = pd.read_csv('games_details.csv', low_memory=False)
 print("Dataset berhasil dimuat.")
 
-# Menghapus spasi di nama kolom (jika ada)
+# Menghapus spasi di nama kolom
 df.columns = df.columns.str.strip()
 
 # Menangani missing values jika ada
@@ -98,6 +98,7 @@ class NBAApp(Tk):
         self.title("Match Predict NBA")
         self.geometry("500x500")
         self.configure(bg="#1C2833")  # Background warna gelap
+        self.center_window()  # Atur posisi ke tengah layar
 
         # Judul
         Label(self, text="Match Predict NBA", font=("Arial", 16, "bold"), bg="#1C2833", fg="white").pack(pady=10)
@@ -126,6 +127,19 @@ class NBAApp(Tk):
         Label(self, text="Hasil Prediksi", font=("Arial", 12, "bold"), bg="#1C2833", fg="white").pack(pady=10)
         self.result_text = Text(self, height=8, width=50, font=("Arial", 12), state='disabled', bg="#D5D8DC")
         self.result_text.pack(pady=10)
+
+    def center_window(self):
+        """Memposisikan jendela di tengah layar."""
+        self.update_idletasks()  # Perbarui ukuran jendela
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        window_width = self.winfo_width()
+        window_height = self.winfo_height()
+
+        # Hitung posisi tengah
+        x = (screen_width // 2) - (window_width // 2)
+        y = (screen_height // 2) - (window_height // 2)
+        self.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
     def on_predict(self):
         team_a = self.team_a_var.get().upper().strip()
